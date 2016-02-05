@@ -12,7 +12,7 @@ public class Recursion implements hw01{
 
 
     public double findRoot(double n, double guess) {
-	if (Math.pow(guess,2)/n < 0.01) {
+	if ((Math.abs(Math.pow(guess,2) - n))/n * 100 < 0.01) {
 	    return guess;
 	}
 	guess = (n/guess+guess)/2;
