@@ -4,10 +4,13 @@ public class Recursion implements hw01{
     }
 
     public double sqrt(double n) {
-	if (n < 0) {
+	if (n == 0){
+	    return 0;
+	} else if (n < 0) {
 	    throw new IllegalArgumentException();
+	} else {
+	    return findRoot(n,1);
 	}
-	return findRoot(n,1);
     }
 
 
