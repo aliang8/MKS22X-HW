@@ -2,51 +2,48 @@ import java.util.Arrays;
 public class Queens{
     int[][]board;
     int queens;
-    public Queen(int num) {
+    public Queens(int num) {
 	board = new int[num][num];
 	queens = num;
     }
-    public void addQueen(int x, int y) {
-	board[x][y] = 1;
-	int r = x + 1;
-	for(int c = y + 1; c < board.length; c++){
-	    if(r < board.length){
-		board[r][c] -= 1;
-		r+= 1;
+    void addQueen(int row, int col) {
+	board[row][col] = 1;
+	for (int i = col+1; i < board[row].length; i++) {
+	    board[row][i]--;
+	}
+	int curRow = row+1;
+	for (int j = col+1; curRow < board.length && j < board[row].length; j++) {
+	    board[curRow][j]--;
+	    curRow++;
+	}
+	curRow = row-1;
+	for (int k = col+1; curRow >= 0 && k < board[row].length; k++) {
+	    board[curRow][k]--;
+	    curRow--;
+	}	
+     }
+     public boolean removeQueen(int row,int col){
+	if(!(board[row][col]==1)){
+	    return false;
+	}
+	for(int r = 0;r<board.length;r++){
+	    for(int c = 0;c<board.length;c++){
+		if((r==row)||(c==col)||(r-c==row-col)||(r+c==row+col)){
+		    if(board[r][c]>0){
+			board[r][c]-=1;
+		    }else if(board[r][c]<0){
+		    board[r][c]+=1;
+		    }
+		}
 	    }
 	}
-	r = x - 1;
-	for(int c = col+1; c < board.length; c++){
-	    if(r > 0) {
-		board[r][c] -= 1;
-		r -= 1;
-	    }
-	}
-	for(int c = x + 1; c < board.length; c++){
-	    board[x][c] -= 1;
-	}
-    }
-    public void removeQueen(int x, int y){
-	board[x][y] = 0;
-	int counter = 1;
-	int counter2 = 1;
-	for(int a = y + 1; a < board.length; a ++){
-	    board[x][a]=board[x][a] + 1;
-	}
-	for(int b = x - 1 ; b >=0;b --){
-	    board[b][y + counter] = board[b][y + counter]+1;
-	    counter ++;
-	}
-	for(int c = x; c <board.length - 1; c ++){
-	    board[x+counter2][y+counter2]= board[x+counter2][y+counter2] + 1;
-	    counter2 ++;
-	}
+	return true;
     }
     public String printBoard(){
 	String result = "";
 	for(int i = 0; i < board.length; i ++){
 	    for(int j = 0; j <board[i].length; j++){
-		result += Integer.toString(board[i][j])+ " ";
+		result += Integer.toString(board[i][j])+ "    ";
 	    }
 	    result += "\n";
 	}
@@ -55,9 +52,9 @@ public class Queens{
     
     public static void main(String[]args){
 	Queens eight = new Queens(8);
-	hq.addQueen(3,5);
+	eight.addQueen(3,5);
 	System.out.println(eight.printBoard());
-	hq.removeQueen(3,5);
+	eight.removeQueen(3,5);
 	System.out.println(eight.printBoard());
 
     }
