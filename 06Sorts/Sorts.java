@@ -133,6 +133,10 @@ public class Sorts{
 	printArray(copy);
     }
 
+    public static String name(){
+	return "6,Liang,Anthony";
+    }
+
     public static void main(String[]args){
 	// insertion test
         int[] test1 = {10,8,5,6,7,12};
