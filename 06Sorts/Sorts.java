@@ -126,6 +126,10 @@ public class Sorts{
 	    copy[sortIndex]=data[b];
 	    sortIndex++;
 	}
+	for(int c=startA; c<copy.length; c++){
+	    data[c]=copy[c-startA];
+	}
+
 	printArray(copy);
     }
 
