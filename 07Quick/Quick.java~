@@ -1,0 +1,56 @@
+import java.util.*;
+
+public class Quick{
+    public static int partition(int[]data, int left, int right){
+	int num= (int)(data[Math.random()*data.length]);
+	while(left!=right){
+	    if(data[left]<=num){
+		left++;
+	    }else{
+		int temp=data[left];
+		data[left]=data[right];
+		data[right]=temp;
+		right--;
+	    }
+	}
+	if(data[left]>num){
+	    data[data.length-1]=data[right];
+	    data[right]=num;
+	    return left;
+	}else{
+	    data[data.length-1]=data[right+1];
+	    data[right+1]=num;
+	    return left+1;
+	}
+    }
+
+
+    public static void swap(int[] data,int a,int b){
+	int temp = data[a];
+	data[a]= data[b];
+	data[b]= temp;
+    }
+
+/*
+    public static int quickselect(int[]data, int k)  {
+	return quickselect(data,k,0,data.length-1);
+    }
+
+
+    private static int quickselect(int[]data, int k, int left, int right) {
+	if (left == right) {
+	    return data[left];
+	}
+	int  = partition(data,left,right);	
+	quickselect(data,k,left,part);
+    }
+ */
+    public static void main(String[]args) {
+	int[] data = {3,10,6,27,16,33};
+	System.out.println(partition(data,0, data.length-1));
+	System.out.println(Arrays.toString(data));		   
+    }
+    
+
+}
+
