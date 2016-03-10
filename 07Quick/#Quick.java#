@@ -7,7 +7,7 @@ public class Quick {
         if (left == right) {
 	    return right;
 	}
-        int randIndex = (int)(Math.random()*(right-left + 1)) + left;
+        int randIndex = (int)(Math.random()*(right-left)) + left;
 	int val = data[randIndex];
  	int temp = right;
 	swap(data,randIndex,right);
@@ -24,11 +24,11 @@ public class Quick {
  	}
 	int temp2 = temp;
         if (data[left] < val) {
-	    swap(data, right + 1, temp);
-	    return right + 1;
+	    swap(data,right+1,temp);
+	    return right+1;
 	}
 	else {
-	    swap(data, left, temp);
+	    swap(data,left,temp);
 	    return left;
 	}
 
@@ -41,7 +41,7 @@ public class Quick {
     }
         
     public static int quickselect(int[]data, int k)  {
-	return quickselect(data, k, 0, data.length-1);
+	return quickselect(data,k,0,data.length-1);
     }
 
 
@@ -58,61 +58,60 @@ public class Quick {
 
     
     public static void quickSort(int[]data) {
-	quickSort(data, 0, data.length - 1);
+	quickSort(data, 0, data.length-1);
     }
 
     public static void quickSort(int[]data, int left, int right) {
-	if (right - left > 0) {
-	    int pos = partition(data, left, right);
-	    quickSort(data, left, pos - 1);
-	    quickSort(data, pos + 1, right);
+	if (left == right) {
+	    int index = partition(data, left, right);
+	    if (index > 0) {
+		quickSort(data, left, index-1);
+	    }
+	    if (index < data.length - 1) {
+		quickSort(data, index + 1, right);
+	    }
 	}
 	
     }
 
     public static void  printArray(int[]data) {
-	String array = "[";
+	String print = "[";
 	for (int i = 0; i < data.length; i++) {
-	    if (i == data.length - 1) {
-		array += data[i];
+	    if (i == data.length-1) {
+		print += data[i];
 	    }
 	    else {
-		array += data[i] + ", ";
+		print += data[i] + ", ";
 	    }
 	}
-	array += "]";
-	System.out.println(array);
+	print += "]";
+	System.out.println(print);
     }
+
 
     public static String name(){
 	return "6,Liang,Anthony";
     }
 
     public static void main(String[]args) {
-	int[] data1 = {3,10,6,27,16,33};
+	int[] data1 = {2,4,6,1,23,6,12};
 	//System.out.println(quickselect(data1,3));
-	System.out.println("Original Array: ");
 	printArray(data1);
-	quickSort(data1);
-	System.out.println("New Array: ");
-	printArray(data1);
+	//quickSort(data1);
+	//printArray(data1);
 
-	int[] data2 = {1,2,5,4};
-	System.out.println("Original Array: ");
-	printArray(data2);
-	quickSort(data2);
-	System.out.println("New Array: ");
-	printArray(data2);
+	int[] data2 = {3,3};
+	System.out.println(quickselect(data2,1));
+	//System.out.println(Arrays.toString(data2));
+	//quickSort(data2);
+	//System.out.println(Arrays.toString(data2));
 
-	int[] data3 = {123,23,333,33221,33};
-	System.out.println("Original Array: ");
-	printArray(data3);
-	quickSort(data3);
-	System.out.println("New Array: ");
-	printArray(data3);
-
+	int[] data3 = {3,10,6,12,32,53};
+	System.out.println(quickselect(data3,2));
+	//System.out.println(Arrays.toString(data3));
+	//quickSort(data3);	
+	//System.out.println(Arrays.toString(data3));   
     }
-     
+    
+    
 }
-
-
