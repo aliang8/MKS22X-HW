@@ -2,116 +2,177 @@ import java.util.*;
 import java.util.Arrays;
 
 public class Quick {
-    public static int partition(int[]data, int left, int right) {
-
-        if (left == right) {
-	    return right;
-	}
-        int randIndex = (int)(Math.random()*(right-left)) + left;
-	int val = data[randIndex];
- 	int temp = right;
-	swap(data,randIndex,right);
-	right--;
-
-	while (left < right) {
- 	    if (data[left] <= val) {
-		left++;
-	    }
- 	    else {
- 		swap(data,left,right);
-		right--;
-	    }
- 	}
-	int temp2 = temp;
-        if (data[left] < val) {
-	    swap(data,right+1,temp);
-	    return right+1;
-	}
-	else {
-	    swap(data,left,temp);
+    public static int partitionUnoptimized(int[] data,int left, int right){
+	if (left==right){
 	    return left;
 	}
-
+	int pos=(int)(Math.random()*(right-left+1))+left;
+	int num=data[pos];
+	int end=right;
+	data[pos]=data[right];
+	data[right]=num;
+	right--;
+	while(left!=right){
+	    if(data[left]<=num){
+		left++;
+	    }else{
+		int temp=data[left];
+		data[left]=data[right];
+		data[right]=temp;
+		right--;
+	    }
+	}
+	if(data[left]>num){
+	    data[end]=data[right];
+	    data[right]=num;
+	    return left;
+	}else{
+	    data[end]=data[left+1];
+	    data[left+1]=num;
+	    return left+1;
+	}
     }
 
-    private static void swap(int[]data,int a, int b) {
-	int temp = data[a];
-	data[a] = data[b];
-	data[b] = temp;
+    public static int[] partition(int[] data, int left, int right){
+	int[] ans=new int[2];
+	if (left==right){
+	    ans[0]=left;
+	    ans[1]=right;
+	    return ans;
+	}
+	int pos=(int)(Math.random()*(right-left+1))+left;
+	int num=data[pos];
+	int[] copy=new int[data.length];
+	for(int k=0;k<data.length;k++){
+	    copy[k]=data[k];
+	}
+	int start=right;
+	for(int i=left;i<=start;i++){
+	    if(data[i]>num){
+		copy[right]=data[i];
+		right--;
+	    }else if(data[i]<num){
+		copy[left]=data[i];
+		left++;
+	    }
+	}
+	for(int j=left;j<=right;j++){
+	    copy[j]=num;
+	}
+	for(int k=0;k<data.length;k++){
+	    data[k]=copy[k];
+	}
+	ans[0]=left;
+	ans[1]=right;
+	return ans;
     }
-        
-    public static int quickselect(int[]data, int k)  {
+    public static int quickselect(int[] data,int k){
 	return quickselect(data,k,0,data.length-1);
     }
-
-
-    private static int quickselect(int[]data, int k, int left, int right) {
-	int pos = partition(data,left,right);
-	if (pos == k) {
-	    return data[pos];
-	} else if (pos > k) {
-	    return quickselect(data,k,left,pos - 1);
-	}else {
-	    return quickselect(data,k,pos + 1,right);
-	}
-    }
-
     
-    public static void quickSort(int[]data) {
-	quickSort(data, 0, data.length-1);
+    public static int quickselect(int[] data,int k,int left,int right){
+	int pos=partitionUnoptimized(data,left,right);
+	if(pos==k){
+	    return data[k];
+	}else if(pos>k){
+	    return quickselect(data,k,left,pos-1);
+	}else{
+	    return quickselect(data,k,pos+1,right);
+	}	    
+    }
+    
+    public static void quickSortUnoptimized(int[] data){
+	quickSort(data,0,data.length-1);
     }
 
-    public static void quickSort(int[]data, int left, int right) {
-	if (left == right) {
-	    int index = partition(data, left, right);
-	    if (index > 0) {
-		quickSort(data, left, index-1);
-	    }
-	    if (index < data.length - 1) {
-		quickSort(data, index + 1, right);
-	    }
+    public static void quickSortUnoptimized(int[] data, int left, int right){
+	if(right-left>0){
+	    int pos=partitionUnoptimized(data,left,right);
+	    quickSort(data,left,pos-1);
+	    quickSort(data,pos+1,right);
 	}
-	
     }
 
-    public static void  printArray(int[]data) {
-	String print = "[";
-	for (int i = 0; i < data.length; i++) {
-	    if (i == data.length-1) {
-		print += data[i];
-	    }
-	    else {
-		print += data[i] + ", ";
-	    }
+    public static void quickSort(int[] data){
+	quickSort(data,0,data.length-1);
+    }
+
+    public static void quickSort(int[] data, int left, int right){
+	if(right-left>0){
+	    int[] pos=partition(data,left,right);
+	    quickSort(data,left,pos[0]-1);
+	    quickSort(data,pos[1]+1,right);
 	}
-	print += "]";
-	System.out.println(print);
     }
 
-
+    public static void printArray(int[] data){
+	for (int i=0;i<data.length;i++){
+	    System.out.print(data[i]+" ");
+	}
+	System.out.println();
+    }
     public static String name(){
-	return "6,Liang,Anthony";
+	return "7,Topa,Giovanni";  
     }
-
+    
     public static void main(String[]args) {
-	int[] data1 = {2,4,6,1,23,6,12};
-	//System.out.println(quickselect(data1,3));
-	printArray(data1);
-	//quickSort(data1);
-	//printArray(data1);
-
-	int[] data2 = {3,3};
-	System.out.println(quickselect(data2,1));
-	//System.out.println(Arrays.toString(data2));
-	//quickSort(data2);
-	//System.out.println(Arrays.toString(data2));
-
-	int[] data3 = {3,10,6,12,32,53};
-	System.out.println(quickselect(data3,2));
-	//System.out.println(Arrays.toString(data3));
-	//quickSort(data3);	
-	//System.out.println(Arrays.toString(data3));   
+	public static void main(String[]args){
+	    Random r1=new Random();
+	    int[] a1=new int[4000000];
+	    for(int i=0;i<a1.length;i++){
+		a1[i]=(int)(Math.random()*4);
+	    }
+	    int[] a2=new int[4000000];
+	    for(int i=0;i<a1.length;i++){
+		a1[i]=a2[i];
+	    }
+	    int[] a3=new int[4000000];
+	    for(int i=0;i<a1.length;i++){
+		a1[i]=a3[i];
+	    }
+	    int[] b1=new int[4000000];
+	    for(int i=0;i<b1.length;i++){
+		a1[i]=r1.nextInt();
+	    }
+	    int[] b2=new int[4000000];
+	    for(int i=0;i<b1.length;i++){
+		a1[i]=a2[i];
+	    }
+	    int[] b3=new int[4000000];
+	    for(int i=0;i<b1.length;i++){
+		a1[i]=a3[i];
+	    }
+	    long startTimea = System.nanoTime();
+	    Arrays.sort(a1);
+	    long endTimea = System.nanoTime();
+	    long durationa = (endTimea - startTimea);
+	    long startTimeb = System.nanoTime();
+	    Quick.quickSortUnoptimized(a2);
+	    long endTimeb = System.nanoTime();
+	    long durationb = (endTimeb - startTimeb);
+	    long startTimec = System.nanoTime();
+	    Quick.quickSort(a3);
+	    long endTimec = System.nanoTime();
+	    long durationc = (endTimec - startTimec);
+	    System.out.println("Arrays.sort small: "+durationa);
+	    System.out.println("quicksortunoptimized small: "+durationb);
+	    System.out.println("quicksort small: "+durationc);
+	    long startTimea1 = System.nanoTime();
+	    Arrays.sort(b1);
+	    long endTimea1 = System.nanoTime();
+	    long durationa1 = (endTimea1 - startTimea1);
+	    long startTimeb1 = System.nanoTime();
+	    Quick.quickSortUnoptimized(b2);
+	    long endTimeb1 = System.nanoTime();
+	    long durationb1 = (endTimeb1 - startTimeb1);
+	    long startTimec1 = System.nanoTime();
+	    Quick.quickSort(b3);
+	    long endTimec1 = System.nanoTime();
+	    long durationc1 = (endTimec1 - startTimec1);
+	    System.out.println("Arrays.sort: "+durationa1);
+	    System.out.println("quicksortunoptimized: "+durationb1);
+	    System.out.println("quicksort: "+durationc1);
+	}
     }
-    
-    
 }
+
