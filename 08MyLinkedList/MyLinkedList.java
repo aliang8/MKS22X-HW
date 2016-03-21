@@ -23,9 +23,14 @@ public class MyLinkedList {
     }
 
     LNode head;
+    LNode end;
     int size;
+     
+    public MyLinkedList() {
+	size = 0;
+    }
 
-    public boolean add(int value){
+    public boolean addOld(int value){
 	if(head == null){
 	    head = new LNode(value);
 	}else {
@@ -34,6 +39,19 @@ public class MyLinkedList {
 		p = p.getNext();
 	    }
 	    p.setNext(new LNode(value));
+	}
+	size++;
+	return true;
+    }
+
+    public boolean add(int value) {
+	if (size == 0) {
+	    head = new LNode(value);
+	    end = head;
+	}
+	else {
+	    end.setNext(new LNode(value));
+	    end = end.getNext();
 	}
 	size++;
 	return true;
@@ -116,7 +134,7 @@ public class MyLinkedList {
 		head.setNext(head.getNext().getNext());
 		return i;
 	    }
-	    head = head.getNext();s
+	    head = head.getNext();
 	    i++;
 	}
 	return 0;
@@ -155,6 +173,22 @@ public class MyLinkedList {
 	System.out.println(l);
 	System.out.println(l.indexOf(2));
 	System.out.println(l);
+	
+	long start,end;
+	start = System.currentTimeMillis();
+	for (int i = 0; i < 100000; i++) {
+	    l.addOld(i);
+	}
+	end = System.currentTimeMillis();
+	System.out.println("Time for addOld(): " + (end-start)/1000.0 + "seconds.");
+
+	start = System.currentTimeMillis();
+	for (int i = 0; i < 100000; i++) {
+	    l.add(i);
+	}	
+	end = System.currentTimeMillis();
+	System.out.println("Time for add(): " + (end-start)/1000.0 + "seconds.");
+
     }
 
 }
