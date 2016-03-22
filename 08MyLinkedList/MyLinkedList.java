@@ -75,18 +75,14 @@ public class MyLinkedList<T> {
     }
 
     public T get(int index){
-	if (index >= size){
-	    throw new IndexOutOfBoundsException();
+	if(index >= size){
+		throw new IndexOutOfBoundsException();	
 	}
-	LNode current = head;
-	for (int i = 0; i < size; i++){
-	    if (i == index){
-		return current.getValue();
-	    }else {
-		current = current.getNext();
-	    }
+	LNode current= head;
+	for (int i = 0; i < index; i++){
+	    current = current.getNext();
 	}
-	return null;
+	return current.getValue();
     }
 
     public T set(int index, T newValue) {
@@ -97,9 +93,9 @@ public class MyLinkedList<T> {
 	for (int i = 0; i < index; i++) {
 	    current = current.getNext();
 	}
-	T oldValue = current.getValue();
+	T oldVal = current.getValue();
 	current.setValue(newValue);
-	return oldValue;
+	return oldVal;
     }
 
     public boolean add(int index, T value){
@@ -137,13 +133,14 @@ public class MyLinkedList<T> {
 	}
     }
     
-    public int indexOf(T value) {
-	LNode current = head;
-	for (int i = 0; i < size; i++) {
-	    if (current.getValue() == value) {
-		return i;
+    public int indexOf(T value){
+	int pos = 0;
+	LNode current=head;
+	while(current.getNext()!=null){
+	    if (current.getValue().equals(value)){
+		return pos;
 	    }
-	    current = current.getNext();
+	    current=current.getNext();
 	}
 	return -1;
     }
