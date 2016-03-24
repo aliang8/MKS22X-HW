@@ -1,6 +1,7 @@
 import java.util.*;
+import java.util.Iterator;
 
-public class MyLinkedList<T> {
+public class MyLinkedList<T> implements Iterable<T> {
 
     private class LNode {
 	T value;
@@ -21,6 +22,31 @@ public class MyLinkedList<T> {
 	}
 	public void setNext(LNode n){
 	    next = n;
+	}
+    }
+
+    public Iterator<T>iterator() {
+	return new LLIterator();
+    }
+
+    public class LLIterator implements Iterator<T> {
+	LNode current;
+
+	public LLIterator() {
+	    current = head;
+	    System.out.println("Start value: " + current.getValue());
+	}
+	
+	public boolean hasNext() {
+	    return current.getNext() != null;
+	}
+
+	public T next() {
+	    return current.getValue();
+	}
+
+	public void remove() {
+	    throw new UnsupportedOperationException();
 	}
     }
 
@@ -113,16 +139,16 @@ public class MyLinkedList<T> {
 	current.setValue(newValue);
 	return oldValue;
     }
-
-    public boolean removeOld(int pos){
-	if(pos > size){
+    
+    public boolean removeOld(int index){
+	if(index > size){
 	    return false;
-	}else if (pos == 0){
+	}else if (index == 0){
 	    head = head.getNext();
 	    return true;
 	}else{
 	    LNode current = head;
-	    for (int i = 0; i < pos - 1; i++){
+	    for (int i = 0; i < index - 1; i++){
 		current = current.getNext();
 	    }
 	    current.setNext(current.getNext().getNext());
@@ -155,17 +181,31 @@ public class MyLinkedList<T> {
     }
 
     public int indexOf(T value){
-	int pos = 0;
+	int index = 0;
 	LNode current=head;
 	while(current.getNext()!=null){
 	    if (current.getValue().equals(value)){
-		return pos;
+		return index;
 	    }
 	    current=current.getNext();
 	}
 	return -1;
+    }		
+   
+    public String toString() {
+	String ans = "[";
+	LNode p = head;
+	while (p != null){
+	    ans += p.getValue();
+	    if (p.getNext() != null){
+		ans += ", ";
+	    }
+	    p = p.getNext();
+	}
+	ans += "]";
+	return ans;
     }
-    
+
     public String toString(boolean debug){
 	String ans = "[";
 	LNode p = head;
@@ -183,9 +223,9 @@ public class MyLinkedList<T> {
 	    return ans;
 	}
     }
-   
+
     public static void main(String [] args) {
-	/*
+	
 	MyLinkedList<Integer> l = new MyLinkedList<Integer>();
 	System.out.println(l);
 	l.add(2);
@@ -227,7 +267,8 @@ public class MyLinkedList<T> {
 	s.add(new String("girl"));
 	s.add(new String("pig"));
 	System.out.println(s);
-	*/
+	
+
         MyLinkedList<String> m = new MyLinkedList<String>();
         ArrayList<String>    n = new ArrayList<String>();
 
@@ -351,3 +392,5 @@ public class MyLinkedList<T> {
     }
 
 }
+
+

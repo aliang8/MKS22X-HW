@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class MyLinkedList<T> {
+public class MyLinkedList<T> implements Iterable<T> {
 
     private class LNode {
 	T value;
@@ -25,9 +25,9 @@ public class MyLinkedList<T> {
     }
 
     LNode head;
-    LNode end;
     int size;
-     
+    LNode end;
+
     public MyLinkedList() {
 	size = 0;
     }
@@ -47,6 +47,7 @@ public class MyLinkedList<T> {
     }
 
     public boolean add(T value) {
+
 	if (size == 0) {
 	    head = new LNode(value);
 	    end = head;
@@ -58,24 +59,31 @@ public class MyLinkedList<T> {
 	size++;
 	return true;
     }
-    public boolean debug = false;
-    public String toString(boolean b){
-	String ans = "[";
-	LNode p = head;
-	while (p != null){
-	    ans += p.getValue() + " ";
-	    if (p.getNext() != null){
-		ans += ", ";
+
+    public boolean add(int index, T value) {
+	
+	if (index > size || index < 0) {
+	    throw new IndexOutOfBoundsException();
+	}else if (index == 0) {
+	    LNode current = head;
+	    head = new LNode(value);
+	    head.setNext(current);
+	    size++;
+	}else if (index == size) {
+	    add(value);
+	}else {
+	    LNode current = head;
+	    for (int i = 0; i < index-1; i++) {
+		current = current.getNext();
 	    }
-	    p = p.getNext();
+	    LNode node = current.getNext();
+	    current.setNext(new LNode(value));
+	    current.getNext().setNext(node);
+	    size++;
 	}
-	return ans + "]";
+	return true;
     }
-
-    public int size(){
-	return size;
-    }
-
+    
     public T get(int index){
 	if(index >= size){
 		throw new IndexOutOfBoundsException();	
@@ -87,38 +95,26 @@ public class MyLinkedList<T> {
 	return current.getValue();
     }
 
+
+    public int size() {
+	return size;
+    }
+
+
     public T set(int index, T newValue) {
-	if (index >= size) {
+	if (index >= size || index < 0) {
 	    throw new IndexOutOfBoundsException();
 	}
 	LNode current = head;
 	for (int i = 0; i < index; i++) {
 	    current = current.getNext();
 	}
-	T oldVal = current.getValue();
+	T oldValue = current.getValue();
 	current.setValue(newValue);
-	return oldVal;
+	return oldValue;
     }
 
-    public boolean add(int index, T value){
-	if (index >= size){
-	    add(value);
-	}else {
-	    LNode current = head;
-	    for (int i = 0; i < index; i++){
-		current = current.getNext();
-	    }   
-	    add(get(size - 1));
-            for (int i = size - 1; i > index; i--) {
-		set(i, get(i-1));
-	    }
-	    current.setValue(value);
-	    size++;
-	}
-	return true;
-    }
-	   
-    public boolean remove(int pos){
+    public boolean removeOld(int pos){
 	if(pos > size){
 	    return false;
 	}else if (pos == 0){
@@ -135,6 +131,29 @@ public class MyLinkedList<T> {
 	}
     }
     
+    public T remove(int index) {
+	if (index >= size || index < 0 ) {
+	    throw new IndexOutOfBoundsException();
+	}else if (index == 0) {
+	    T removed = head.getValue();
+	    head = head.getNext();
+	    size--;
+	    return removed;
+	}else {
+	    LNode current = head;
+	    for (int i = 0; i < index-1; i++) {
+		current = current.getNext();
+	    }
+	    if (index == size-1) {
+		end = current;
+	    }
+	    T removed = current.getNext().getValue();
+	    current.setNext(current.getNext().getNext());
+	    size--;
+	    return removed;
+	}
+    }
+
     public int indexOf(T value){
 	int pos = 0;
 	LNode current=head;
@@ -147,7 +166,28 @@ public class MyLinkedList<T> {
 	return -1;
     }
     
+    public String toString(boolean debug){
+	String ans = "[";
+	LNode p = head;
+	while (p != null){
+	    ans += p.getValue() + " ";
+	    if (p.getNext() != null){
+		ans += ", ";
+	    }
+	    p = p.getNext();
+	}
+        ans += "]";
+	if(debug){
+	    return ans + " HEAD: " + head.getValue() + "\tTAIL: " + end.getValue();
+	}else {
+	    return ans;
+	}
+    }
 
+    public Iterator<T> iterator(){
+	return null;
+    }
+   
     public static void main(String [] args) {
 	/*
 	MyLinkedList<Integer> l = new MyLinkedList<Integer>();
@@ -171,20 +211,20 @@ public class MyLinkedList<T> {
 	System.out.println(l.indexOf(2));
 	System.out.println(l);
 	
-	long start,end;
-	start = System.currentTimeMillis();
+	long head,end;
+	head = System.currentTimeMillis();
 	for (int i = 0; i < 100000; i++) {
 	    l.addOld(i);
 	}
 	end = System.currentTimeMillis();
-	System.out.println("Time for addOld(): " + (end-start)/1000.0 + "seconds.");
+	System.out.println("Time for addOld(): " + (end-head)/1000.0 + "seconds.");
 
-	start = System.currentTimeMillis();
+	head = System.currentTimeMillis();
 	for (int i = 0; i < 100000; i++) {
 	    l.add(i);
 	}	
 	end = System.currentTimeMillis();
-	System.out.println("Time for add(): " + (end-start)/1000.0 + "seconds.");
+	System.out.println("Time for add(): " + (end-head)/1000.0 + "seconds.");
 
 	MyLinkedList<String> s = new MyLinkedList<String>();
 	s.add(new String("boy"));
@@ -248,9 +288,9 @@ public class MyLinkedList<T> {
         System.out.println(m.toString(true));
         System.out.println(n);
 
-        //test adding to end/start
-        m.add(0,"START");
-        n.add(0,"START");
+        //test adding to end/head
+        m.add(0,"head");
+        n.add(0,"head");
         m.add(m.size(),"PENULTIMATE");
         n.add(n.size(),"PENULTIMATE");
         System.out.println(m.toString(true));
@@ -262,6 +302,8 @@ public class MyLinkedList<T> {
         System.out.println(m.toString(true));
         System.out.println(n);
 
+	System.out.println("--------------------------------");
+	
         //test remove random items:
         Random rand = new Random(0);
         for(int i = 0; i < 6000; i++){
@@ -286,36 +328,29 @@ public class MyLinkedList<T> {
         System.out.println(n);
 
         /*test speed of add in front and at end.
-        long start,end;
+        long head,end;
         System.out.println("Add 100k to front");
-
-        start = System.currentTimeMillis();
+        head = System.currentTimeMillis();
         for(int i = 0; i < 100000; i++)
             n.add(0,""+i);
         end = System.currentTimeMillis();
-        System.out.println( "ArrayList "+(end-start)/1000.0 );
-
-        start = System.currentTimeMillis();
+        System.out.println( "ArrayList "+(end-head)/1000.0 );
+        head = System.currentTimeMillis();
         for(int i = 0; i < 100000; i++)
             m.add(0,""+i);
         end = System.currentTimeMillis();
-        System.out.println( "LinkedList "+(end-start)/1000.0 );
-
-
+        System.out.println( "LinkedList "+(end-head)/1000.0 );
         System.out.println("Add 1m to end");
-
-        start = System.currentTimeMillis();
+        head = System.currentTimeMillis();
         for(int i = 0; i < 1000000; i++)
             n.add(""+i);
         end = System.currentTimeMillis();
-        System.out.println( "ArrayList "+(end-start)/1000.0 );
-
-        start = System.currentTimeMillis();
+        System.out.println( "ArrayList "+(end-head)/1000.0 );
+        head = System.currentTimeMillis();
         for(int i = 0; i < 1000000; i++)
             m.add(""+i);
         end = System.currentTimeMillis();
-        System.out.println( "LinkedList "+(end-start)/1000.0 );
-
+        System.out.println( "LinkedList "+(end-head)/1000.0 );
         */
     }
 
