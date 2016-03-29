@@ -38,11 +38,16 @@ public class MyLinkedList<T> implements Iterable<T> {
 	}
 	
 	public boolean hasNext() {
-	    return current.getNext() != null;
+	    return current != null;
 	}
 
 	public T next() {
-	    return current.getValue();
+	    if(!hasNext()){
+		throw new NoSuchElementException();
+	    }
+	    T ans = current.getValue();
+	    current = current.getNext();
+	    return ans;
 	}
 
 	public void remove() {
@@ -246,6 +251,19 @@ public class MyLinkedList<T> implements Iterable<T> {
 	System.out.println(l);
 	System.out.println(l.indexOf(2));
 	System.out.println(l);
+
+	for(Integer i: l){
+	    System.out.print(i + " ");
+	}
+	System.out.println();
+	Iterator<Integer> it = l.iterator();
+	Iterator<Integer> it2= l.iterator();
+	it2.next();
+	it2.next();
+	while(it2.hasNext()){
+	    System.out.println(it.next() + " vs " + it2.next());
+	}
+	System.out.println();
 	
 	long head,end;
 	head = System.currentTimeMillis();
