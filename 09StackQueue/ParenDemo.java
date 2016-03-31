@@ -1,36 +1,35 @@
+import java.util.*;
 public class ParenDemo {
     
     public static boolean isMatching(String s) {
-        MyStack <String> p = new MyStack<String>();
+        MyStack <Character> p = new MyStack<Character>();
 	for (int i = 0; i < s.length(); i++) {
 	    if (s.charAt(i)=='('|| s.charAt(i)=='['|| s.charAt(i)=='{'|| s.charAt(i)=='<') {
-		p.push("" + s.charAt(i));
-	    }
-	    if (s.charAt(i)==')'|| s.charAt(i)==']'|| s.charAt(i)=='}'|| s.charAt(i)=='>') {
-	       if (("" + s.charAt(i)).equals(matchingBracket(p.peek()))) {
-		    p.pop();
+		p.push(s.charAt(i));
+	    }else if (s.charAt(i)==')'|| s.charAt(i)==']'|| s.charAt(i)=='}'|| s.charAt(i)=='>') {
+		try {
+		    if(p.pop() != getMatch(s.charAt(i)))  {
+			return false;
+		    }
 		}
-	       else {
-		return false;}
+		catch (NoSuchElementException e) {
+		    return false;
+		}
 	    }
 	}
-	return true;
+	return p.isEmpty();
     }
-
-    public static String matchingBracket(String s) {
-	if (s.equals("<")) {
-	    return ">";
+    
+    public static char getMatch(char s) {
+	if (s == '>') {
+	    return '<';
+	} else if (s == ']') {
+	    return '[';
+	} else if (s == ')') {
+	    return '(';
+	} else {
+	    return '{';
 	}
-	if (s.equals("[")) {
-	    return "]";
-	}
-	if (s.equals("(")) {
-	    return ")";
-	}
-	if (s.equals("{")) {
-	    return "}";
-	}
-	return "";
     }
 
 
