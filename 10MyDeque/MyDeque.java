@@ -12,28 +12,33 @@ public class MyDeque<T> {
         data = (T[]) new Object[10];
 	start = 0;
 	end = 0;
-	filled = 0;
+ 	size = 0;
     }
 
     @SuppressWarnings("unchecked")
-    private void resize(){
-	Object[] temp=new Object[size*2];
-	for(int ctr=0;ctr<size;ctr++){
-	    temp[ctr]=data[(ctr+start)%size];
+    private void resize() {
+	T [] bigger = (T[])new Object[data.length*2];
+	int arrayPlace = start;
+	
+	for (int i = 0; i < data.length; i++) {
+	    bigger[i] = data[arrayPlace];
+	    if (arrayPlace == data.length-1) {
+		arrayPlace = 0;
+	    }
+	    else {
+		arrayPlace++;
+	    }
 	}
-	start=0;
-	end=filled-1;
+	start = 0;
+	end = data.length-1;
+	data = bigger;
     }
 
-    //0. You need a private method to grow the array and copy over the values.
-
-    //There are 6 public methods:
-    //1. 
     void addFirst(T value) {
 	if (isFull()) {
 	    resize();
 	}
-	if (filled == 0) {	    
+	if (size == 0) {	    
 	    data[0] = value;
 	}
 	else {
@@ -45,15 +50,14 @@ public class MyDeque<T> {
 	    }
 	    data[start] = value;
 	}
-	filled++;
+	size++;
     }
 
-    //2. 
     void addLast(T value) {
 	if (isFull()) {
 	    resize();
 	}
-	if (filled == 0) {
+	if (size == 0) {
 	    data[0] = value;
 	}
         else {
@@ -65,19 +69,16 @@ public class MyDeque<T> {
 	    }
 	    data[end] = value;
 	}
-	filled++;
+	size++;
     }
-    //-When the array is full, re-length, then add. 
-    //-No exceptions are required since you will re-size.
-
-    //3. 
+ 
     T removeFirst()  {
-	if (filled == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
 	T tmp = data[start];
 	data[start] = null;
-	filled--;
+	size--;
 	if (start == data.length-1) {
 	    start = 0;
 	}
@@ -86,14 +87,14 @@ public class MyDeque<T> {
 	}
 	return tmp;
     }
-    //4. 
+
     T removeLast() {
-	if (filled == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
 	T tmp = data[end];
 	data[end] = null;
-	filled--;
+	size--;
 	if (end == 0) {
 	    end = data.length-1;
 	}
@@ -102,48 +103,37 @@ public class MyDeque<T> {
 	}
 	return tmp;
     } 
-    //-NoSuchElementException is thrown when there are no elements. 
 
-    //5. 
     T getFirst() {
-	if (filled == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
 	return data[start];
     }
-    //6. 
+
     T getLast() {
-	if (filled == 0) {
+	if (size == 0) {
 	    throw new NoSuchElementException();
 	}
 	return data[end];
     }
-    //-NoSuchElementException is thrown when there are no elements. 
 
     public boolean isFull() {
-	return filled == data.length;
+	return size == data.length;
     }
 
-    public String toString() {
-	int arrayPlace = start;
-	String s = "";
-	for (int i = 0; i < filled; i++) {
-	    System.out.print(data[arrayPlace] + "(" + arrayPlace + ") ");
-	    if (i == filled-1) {
-		s += data[arrayPlace];
-	    }
-	    else {
-		s += (data[arrayPlace]+",");
-	    }
-	    if (arrayPlace == data.length-1) {
-		arrayPlace = 0;
-	    }
-	    else {
-		arrayPlace++;
-	    }
+    public String toString(){
+	String ans = "[";
+	for(int i = 0; i < size; i ++){
+		if (i == size-1) {
+			ans += data[i];
+	   	 }else {
+		ans += data[i] + ", ";
 	}
-	System.out.println();
-	return s;
+
+	}
+	ans+="]" + "   size:" + size + "   start:"+start+"   end:" + end;
+	return ans;
     }
 
     public static void main(String[]args) {
@@ -158,9 +148,6 @@ public class MyDeque<T> {
 	d.addFirst(9);  //9,4,3,1,6
 	d.addLast(54);  //9,4,3,1,6,54
 	d.addLast(5);  //9,4,3,1,6,54,5
-	d.addLast(10);  //9,4,3,1,6,54,5,10
-	d.addLast(44);  //9,4,3,1,6,54,5,10,44
-	d.addLast(34);  //9,4,3,1,6,54,5,10,44,34
 	d.addFirst(90);  //90,9,4,3,1,6,54,5,10,44,34
 	d.removeLast();  //90,9,4,3,1,6,54,5,10,44
 	d.removeFirst();  //9,4,3,1,6,54,5,10,44
