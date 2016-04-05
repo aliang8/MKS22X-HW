@@ -1,0 +1,90 @@
+import java.lang.reflect.Array;
+public class MyDeque<Item>
+{
+    private int maxSize=100;
+    private final Item[] array;
+    private int front,rear;
+    private int numberOfItems;
+    public MyDeque()
+    {
+        array=(Item[])(new Object[maxSize]);
+        front=0;
+        rear=-1;
+        numberOfItems=0;
+    }
+    public boolean isEmpty()
+    {
+        return (numberOfItems==0);
+    }
+    public void addFirst(Item item)
+    {
+        if(front==0)
+            front=maxSize;
+        array[--front]=item;
+        numberOfItems++;
+    }
+    public void addLast(Item item)
+    {
+        if(rear==maxSize-1)
+            rear=-1;
+        array[++rear]=item;
+        numberOfItems++;
+    }
+    public Item removeFirst() 
+    {
+        Item temp=array[front++];
+        if(front==maxSize)
+            front=0;
+        numberOfItems--;
+        return temp;
+    }
+    public Item removeLast()
+    {
+        Item temp=array[rear--];
+        if(rear==-1)
+            rear=maxSize-1;
+        numberOfItems--;
+        return temp;
+    }
+    public int getFirst()
+    {
+        return front;
+    }
+    public int getLast()
+    {
+        return rear;
+    }
+    public static void main(String[] args)
+    {
+        Deque<String> element1=new Deque<String>();
+        Deque<String> element2=new Deque<String>();
+        for(int i=0;i<args.length;i++)
+        element1.addFirst(args[i]);
+        try {
+        for(;element1.numberOfItems+1>0;)
+        {
+            String temp=element1.removeFirst();
+            System.out.println(temp);
+        }
+        }
+        catch(Exception ex)
+        {
+            System.out.println("End Of Execution due to remove from empty queue");
+        }
+        System.out.println();
+        for(int i=0;i<args.length;i++)
+        element2.addLast(args[i]);
+        try {
+        for(;element2.numberOfItems+1>0;)
+        {
+            String temp=element2.removeLast();
+            System.out.println(temp);
+        }
+        }
+        catch(Exception ex)
+        {
+            System.out.println("End Of Execution due to remove from empty queue");
+        }
+	}
+}
+}
