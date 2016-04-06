@@ -15,22 +15,21 @@ public class MyDeque<T>{
 
     @SuppressWarnings("unchecked")
     //You need a private method to grow the array and copy over the values.
-    private void grow() {
-	T [] temp = (T[])new Object[data.length*2];
-	int index = start;
-	
-	for (int i = 0; i < data.length; i++) {
-	    temp[i] = data[index];
-	    if (index == data.length-1) {
-		index = 0;
-	    }
-	    else {
-		index++;
-	    }
-	}
-	start = 0;
-	end = data.length-1;
-	data = temp;
+     private void grow(){
+        T[] copy = (T[]) new Object[data.length*2];
+        int counter1 = 0;
+        int counter2 = start;
+        while(counter1 < data.length){
+            if(counter2 == data.length){
+                counter2 = 0;
+            }
+            copy[counter1] = data[counter2];
+            counter1++;
+            counter2++;
+        }
+        start=0;
+        end = counter1 - 1;
+        data = copy;
     }
 
     //When the array is full, re-size, then add.
@@ -38,11 +37,9 @@ public class MyDeque<T>{
     public void addFirst(T value){
         if(isFull()){
             grow();
-        }
-        if (size == 0) {	    
+        } if (size == 0) {	    
 	    data[0] = value;
-	}
-	else {
+	} else {
 	    if (start == 0) {
 		start = data.length-1;
 	    }
@@ -57,13 +54,12 @@ public class MyDeque<T>{
     public void addLast(T value){
         if(isFull()){
             grow();
-        }
-        if(end==data.length-1 || data[end]==null){
-            end=0;
-        }else{
+        } if (end == data.length - 1 || data[end] == null){
+            end = 0;
+        } else { 
             end++;
         }
-        data[end]=value;
+        data[end] = value;
         size++;
     }
 
@@ -72,41 +68,42 @@ public class MyDeque<T>{
         if(size == 0){
             throw new NoSuchElementException();
         }
-        T tmp = data[start];
-	data[start] = null;
-	size--;
-	if (start == data.length-1) {
-	    start = 0;
-	}
-	else {
-	    start++;
-	}
-	return tmp;
-    }
-    public T removeLast(){
-        if(size == 0){
-            throw new NoSuchElementException();
-        }
-        T ans = data[end];
-        data[end]=null;
-        if(end==0){
-            end = data.length-1;
-        }else{
-            end--;
+        T temp = data[start];
+        data[start] = null;
+        if(start == data.length-1){
+            start=0;
+        } else {
+            start++;
         }
         size--;
-        return data[end];
+        return temp;
     }
+
+    public T removeLast() {
+	if (size == 0) {
+	    throw new NoSuchElementException();
+	}
+	T tmp = data[end];
+	data[end] = null;
+	size--;
+	if (end == 0) {
+	    end = data.length-1;
+	}else {
+	    end--;
+	}
+	return tmp;
+    } 
     public boolean isFull() {
 	return size == data.length;
     }
-    //NoSuchElementException is thrown when there are no elements.
+
     public T getFirst(){
         if(size == 0){
             throw new NoSuchElementException();
         }
         return data[start];
     }
+
     public T getLast(){
         if(size == 0){
             throw new NoSuchElementException();
@@ -114,16 +111,20 @@ public class MyDeque<T>{
         return data[end];
     }
 
-    public String toString(){
-        String ans="[ ";
-        for(int i=0; i<data.length-1; i++){
-            ans+=data[i]+", ";
-        }
-        ans+=data[data.length-1]+"]" + "   size:" + size+ "   start:"+start+"   end:" + end;
-        return ans;
+    public int size() {
+	return size;
     }
 
-     public static void main(String[]args) {
+    public String toString(){
+        String ans = "[ ";
+        for(int i = 0; i < data.length - 1; i++){
+            ans += data[i] + ", ";
+        }
+        ans += data[data.length - 1] + "]" + "   size:" + size + "   start:" + start + "   end:" + end;
+        return ans;
+    }
+    
+    public static void main(String[]args) {
 	MyDeque<Integer> d = new MyDeque<>();
 	d.addFirst(6);  //6
 	d.addFirst(3);  //3,6
