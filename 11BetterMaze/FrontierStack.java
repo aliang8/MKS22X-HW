@@ -11,17 +11,20 @@ public class FrontierStack<T> implements Frontier<T>{
 	frontier.push(element);
     }
 
-    public T next(){
-	return frontier.pop();
+    public T next() {
+	if (hasNext()) {
+	    return frontier.peek();
+	}
+	else {
+	    return null;
+	}
     }
 
     public boolean hasNext(){
-	try {
-	    frontier.peek();
-	    return true;
-	}
-	catch (NoSuchElementException e) {
-	    return false;
-	}
+	return !frontier.empty();
+    }
+
+    public T remove(){
+	return frontier.pop();
     }
 }

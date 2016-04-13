@@ -3,7 +3,6 @@ import java.util.*;
 public class Coordinate{
     private int x;
     private int y;
-    private ArrayList<int[]> prevLocation;
 
     public Coordinate(int x, int y){
 	this.x = x;
@@ -16,13 +15,5 @@ public class Coordinate{
 
     public int getY(){
 	return y;
-    }
-
-    public ArrayList<int[]> previousLocation(){
-	return prevLocation;
-    }
-
-    public void addLocation (int x, int y){
-	prevLocation.add({x, y});
     }
 }
