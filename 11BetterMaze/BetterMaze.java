@@ -3,26 +3,26 @@ import java.io.*;
 
 public class BetterMaze{
     private class Node{
-	private Coordinate location;
-	private Node previous;
+	private int x;
+	private int y;
+	private Node prev;
 
-	public Node(Coordinate l, Node p) {
-	    location = l;
-	    previous = p;
+	public Node(int x, int y, Node prev){
+	    this.x=x;
+	    this.y=y;
+	    this.prev=prev;
 	}
 	
-	public Node getPrevious() {
-	    return previous;
-	}
-
-	public Coordinate getValue() {
-	    return location;
-	}
-
-	public Coordinate getLocation() {
-	    return getValue();
+	public int getX(){
+	    return x;
 	}
 	
+	public int getY(){
+	    return y;
+	}
+	public Node getPrev(){
+	    return prev;
+	}
     }
 
     private char[][] maze;
@@ -67,7 +67,21 @@ public class BetterMaze{
     **/
     private boolean solve(){  
         /** IMPLEMENT THIS **/	
-	placesToGo.add(new Node(new Coordinate(startRow,startCol),null));
+	placesToGo.add(new Node(startRow,startCol,null));
+	while(placesToGo.hasNext()){
+	    Node next=placesToGo.next();
+	    for(Node n : getNeighbors(next)){
+		if (checkEnd(n)){
+		    solutionCoordinates();
+		    return true;
+		}
+		startRow=n.getX();
+		startCol=n.getY();
+		maze[startRow][startCol]='.';
+		placesToGo.add(n);
+	    }
+	}
+	return false;
 
     }
 
