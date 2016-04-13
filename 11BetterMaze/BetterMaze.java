@@ -70,6 +70,29 @@ public class BetterMaze{
 	placesToGo.add(new Node(new Coordinate(startRow,startCol),null));
 
     }
+
+    private boolean checkEnd(Node next){
+	return maze[next.getX()][next.getY()]=='E';
+    }
+
+    private ArrayList<Node> getNeighbors(Node next){
+	int row=next.getX();
+	int col=next.getY();
+	ArrayList<Node> neighbors=new ArrayList<Node>();
+	if(!(row-1<0||col-1<0||maze[row-1][col-1]=='.'||maze[row-1][col-1]=='#')){
+	    neighbors.add(new Node(row-1,col-1,next));
+	}
+	if(!(row+1>=maze.length||col-1<0||maze[row+1][col-1]=='.'||maze[row+1][col-1]=='#')){
+	    neighbors.add(new Node(row+1,col-1,next));
+	}
+	if(!(row-1<0||col+1>=maze[row].length||maze[row-1][col+1]=='.'||maze[row-1][col+1]=='#')){
+	    neighbors.add(new Node(row-1,col+1,next));
+	}
+	if(!(row+1>=maze.length||col+1>=maze[row].length||maze[row+1][col+1]=='.'||maze[row+1][col+1]=='#')){
+	    neighbors.add(new Node(row+1,col+1,next));
+	}
+	return neighbors;
+    }
      
     /**mutator for the animate variable  **/
     public void setAnimate(boolean b){  /** IMPLEMENT THIS **/ animate = b;}    
