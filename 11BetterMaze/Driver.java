@@ -1,14 +1,14 @@
-import java.util.*;
-
 public class Driver {
-    public static void main(String[]args) {
-	String maze = "data1.dat";
-	BetterMaze m = new BetterMaze(maze);
-	m.setAnimate(true);
-	//System.out.println(m.solveBFS());
-	System.out.println(m.solveDFS());
-	System.out.println(Arrays.toString(m.solutionCoordinates()));
-	System.out.println(m);
-	
+    public static void main(String[] args) {
+	BetterMaze bm;
+	if (args.length > 0) {
+	    bm = new BetterMaze(args[0]);
+	} else {
+	    bm = new BetterMaze("data1.dat");
+	}
+	bm.setAnimate(true);
+	bm.solveBFS();
+	//bm.solveDFS();
+	System.out.println(bm);
     }
 }

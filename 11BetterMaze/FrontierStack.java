@@ -4,7 +4,7 @@ public class FrontierStack<T> implements Frontier<T>{
     private Stack<T> frontier;
 
     public FrontierStack() {
-	frontier = new Stack<>();
+	frontier = new Stack<T>();
     }
 
     public void add(T element){
@@ -13,18 +13,14 @@ public class FrontierStack<T> implements Frontier<T>{
 
     public T next() {
 	if (hasNext()) {
-	    return frontier.peek();
+	    return frontier.pop();
 	}
 	else {
-	    return null;
+	    throw new NoSuchElementException();
 	}
     }
 
     public boolean hasNext(){
 	return !frontier.empty();
-    }
-
-    public T remove(){
-	return frontier.pop();
     }
 }

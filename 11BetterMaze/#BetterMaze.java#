@@ -24,7 +24,7 @@ public class BetterMaze{
 	    return current;
 	}
     }
-
+    
     private char[][] maze;
     private int[]    solution;
     private int      startRow,startCol;
@@ -80,6 +80,7 @@ public class BetterMaze{
 	        current = placesToGo.next();
 		row = current.getX();
 		col = current.getY();
+		coords = {row,col};
   	    } else {
 		return false;
 	    }
@@ -91,7 +92,7 @@ public class BetterMaze{
 	solution = coords;
 	return true;		
     }
-
+    
     private boolean isEnd(Node current){
 	return maze[current.getX()][current.getY()]=='E';
     }
@@ -124,7 +125,7 @@ public class BetterMaze{
 	}
 	return true;
     }
-
+    
    /**mutator for the animate variable  **/
     public void setAnimate(boolean b){ animate = b; }
 
