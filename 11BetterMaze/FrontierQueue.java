@@ -1,39 +1,27 @@
 import java.util.*;
 
 public class FrontierQueue<T> implements Frontier<T>{
-    private Queue<T> frontier;
+    private ArrayDeque<T> frontier;
 
     public FrontierQueue() {
-	frontier = new LinkedList<>();
+	frontier = new ArrayDeque<T>();
     }
 
 
     public void add(T element) {
-	frontier.add(element);
+	frontier.addLast(element);
     }
 
     public T next() {
         if (hasNext()) {
-	    return frontier.peek();
+	    return frontier.removeFirst();
 	}
 	else {
-	    return null;
+	    throw new NoSuchElementException();
 	}
     }
 
     public boolean hasNext() {
-        try {
-	    frontier.peek();
-	    return true;
-	}
-	catch (NoSuchElementException e) {
-	    return false;
-	}
+        return !frontier.isEmpty();
     }
-
-
-    public T remove() {
-	return frontier.remove();
-    }
-    
 }

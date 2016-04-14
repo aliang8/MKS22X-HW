@@ -21,6 +21,6 @@ public class FrontierStack<T> implements Frontier<T>{
     }
 
     public boolean hasNext(){
-	return !frontier.empty();
+	return !frontier.isEmpty();
     }
 }

@@ -6,22 +6,27 @@ public class BetterMaze{
 	private int x;
 	private int y;
 	private Node current;
+	public int[] id;
 
 	public Node(int x, int y, Node current){
-	    this.x=x;
-	    this.y=y;
+	    id = new int[] {x,y};
+	    this.current = current;
 	}
 	
 	public int getX(){
-	    return x;
+	    return id[0];
 	}
 	
 	public int getY(){
-	    return y;
+	    return id[1];
 	}
 
         public Node getCurrent(){
 	    return current;
+	}
+	
+ 	public int[] getID(){
+	    return id;
 	}
     }
 
@@ -78,12 +83,13 @@ public class BetterMaze{
 	    getNeighbors (coords, current);
 	    if(placesToGo.hasNext()){
 	        current = placesToGo.next();
+		coords = current.getID();
 		row = current.getX();
 		col = current.getY();
   	    } else {
 		return false;
 	    }
-	    if (animate) {
+	     if (animate) {
 		System.out.println(this);
 		wait(20);
 	    }
