@@ -1,14 +1,22 @@
-public class Driver {
-    public static void main(String[] args) {
-	BetterMaze bm;
-	if (args.length > 0) {
-	    bm = new BetterMaze(args[0]);
-	} else {
-	    bm = new BetterMaze("data1.dat");
+import java.util.Arrays;
+public class Driver{
+    public static void main(String[] args){
+	BetterMaze m = new BetterMaze("data2.dat");
+	m.setAnimate(true);
+	if(args.length < 1){
+	    m.clearTerminal();
+	    m.solveBFS();
+	    m.clearTerminal();
+	    System.out.println(m);
 	}
-	bm.setAnimate(true);
-	bm.solveBFS();
-	//bm.solveDFS();
-	System.out.println(bm);
+	else{
+	    m.clearTerminal();
+	    m.solveDFS();
+	    m.clearTerminal();
+	    System.out.println(m);
+	}
     }
 }
+
+
+//THANK U MATTHEW FOR DRIVER
