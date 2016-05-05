@@ -56,22 +56,12 @@ public class BSTree<T extends Comparable<T>> {
 	
 
 	//real methods here
-	public int height(){ 
-	    return height(0);
-	}
 
-	public int height(int n) {
-	    if (left != null && right != null) {
-		return greaterOf(left.height(n+1),right.height(n+1));
-	    }
-	    else if (right != null) {
-		return right.height(n+1);
-	    }
-	    else if (left != null) {
-		return left.height(n+1);
-	    }
-	    else {
-		return n+1;
+	public int getHeight(Node current){
+	    if (current==null){
+		return 0;
+	    }else{
+		return 1+Math.max(getHeight(current.getLeft()),getHeight(current.getRight()));
 	    }
 	}
 
@@ -121,7 +111,49 @@ public class BSTree<T extends Comparable<T>> {
 		return contains(value, current.getRight());
 	    }
 	}
-     
+
+	public Node leftLargest(){
+	    Node start = left;
+	    while (start.right != null) {
+		start = start.right;
+	    }
+	    return start;
+	}
+
+        private void shift(Node a, Node b) {
+	    a = b;
+	}
+	public T remove(T value) {
+	    if (value.compareTo(data) == 0) {
+		if (left != null && right != null) {
+		    data = remove(leftLargest().getValue());
+		}
+		else if (left != null) {
+		    shift(this,this.left);
+		}
+		else if (right != null) {
+		    shift(this,this.right);
+		}
+		else {
+		    data = null;
+		}
+		return value;
+	    }
+	    else if (value.compareTo(data) < 0) {
+		T ret = left.remove(value);
+		if (left.getValue() == null) {
+		    left = null;
+		}
+		return ret;
+	    }
+	    else {
+		T ret = right.remove(value);
+		if (right.getValue() == null) {
+		    right = null;
+		}
+		return ret;
+	    }
+	}
     }
 
 
@@ -140,7 +172,7 @@ public class BSTree<T extends Comparable<T>> {
 	if (root.getValue() == null) {
 	    return 0;
 	}
-	return root.height();
+	return root.getHeight(root);
     }
 
     public void add(T value){
@@ -166,11 +198,22 @@ public class BSTree<T extends Comparable<T>> {
 	return false;
     }
 
+    public T remove(T value) {
+	if (root.getValue() == null) {
+	    return null;
+	}	
+	return root.remove(value);
+    }
+
     public static void main(String[]args) {
 	BSTree<Integer> bs=new BSTree<Integer>();
 	bs.add(3);
 	System.out.println(bs.toString());
 	bs.add(4);
-	System.out.println(bs.getHeight());    }
+	System.out.println(bs.toString());
+	System.out.println(bs.getHeight());  
+	bs.remove(4);
+	System.out.println(bs.toString());
+  }
 
 }
