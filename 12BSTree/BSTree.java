@@ -166,18 +166,11 @@ public class BSTree<T extends Comparable<T>> {
 	return false;
     }
 
-
     public static void main(String[]args) {
-	BSTree<Integer> b = new BSTree<>();
-	b.add(4);
-	b.add(3);
-	b.add(10);
-	b.add(2);
-	b.add(5);
-	b.add(11);
-	b.add(12);
-	System.out.println(b);
-	System.out.println(b.getHeight());
-    }
+	BSTree<Integer> bs=new BSTree<Integer>();
+	bs.add(3);
+	System.out.println(bs.toString());
+	bs.add(4);
+	System.out.println(bs.getHeight());    }
 
 }
