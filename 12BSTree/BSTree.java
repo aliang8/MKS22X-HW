@@ -209,10 +209,14 @@ public class BSTree<T extends Comparable<T>> {
 	BSTree<Integer> bs=new BSTree<Integer>();
 	bs.add(3);
 	System.out.println(bs.toString());
-	bs.add(4);
+	bs.add(2);
 	System.out.println(bs.toString());
 	System.out.println(bs.getHeight());  
-	bs.remove(4);
+	bs.add(4);
+	System.out.println(bs.toString());
+	bs.remove(2);
+	System.out.println(bs.toString());
+	bs.remove(3);
 	System.out.println(bs.toString());
   }
 

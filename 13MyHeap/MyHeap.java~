@@ -1,0 +1,32 @@
+import java.util.*;
+@SuppressWarnings("unchecked")
+public class MyHeap<T extends Comparable<T>>
+{
+   private int size;
+   private T[] data;
+
+   public MyHeap(){}
+   public MyHeap(T[] array){
+       size = array.length + 1;
+       data = new T[size];
+       for (int i = 0; i < size; i++){
+	   data[i] = array[i-1];
+       }
+   }
+   private void pushDown(int k){
+       if (data > size / 2){
+	   throw new Exception ("This index has no children");
+       } else if (
+	   
+   private void pushUp(int k)
+   private void heapify()
+   public T delete()
+   public void add(T x)
+   private void doubleSize()
+   public String toString()
+
+   //do this last
+   public MyHeap(boolean isMax)
+   public MyHeap(T[] array, boolean isMax)
+
+}

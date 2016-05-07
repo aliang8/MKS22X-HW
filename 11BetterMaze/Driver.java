@@ -1,7 +1,7 @@
 import java.util.Arrays;
 public class Driver{
     public static void main(String[] args){
-	BetterMaze m = new BetterMaze("data2.dat");
+	BetterMaze m = new BetterMaze("data1.dat");
 	m.setAnimate(true);
 	if(args.length < 1){
 	    m.clearTerminal();
