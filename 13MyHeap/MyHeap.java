@@ -29,10 +29,13 @@ public class MyHeap<T extends Comparable<T>>
 	   swap(data[k], data[2*k+1]);
        } 
    }
-	   
-   private void pushUp(int k){
-       if (data[k].compareTo(data[k/2
-   private void heapify(
+   private void pushUp(int k) {
+	T temp = data[k/2];
+	data[k/2] = data[k];
+	data[k] = temp;
+   }
+   
+   private void heapify(){
 	T [] temp = (T[])new Comparable[data.length*2+1];
 	int start = size/2-1;	
 	for (int i = start; i > 1; i--) {
@@ -44,17 +47,38 @@ public class MyHeap<T extends Comparable<T>>
 	    temp[i+1] = data[size-i-1];
 	}
 	data = temp;
-   )
+   }
    public T delete()
-   public void add(T x)
-   private void doubleSize(
+   public void add(T x){
+	if (size+1 >= data.length) {
+	    doubleSize();
+	}
+	data[size+1] = value;
+	size++;
+	data[size] = value;
+	pushUp(size);
+    }
+
+   private void doubleSize(){
 	T[]temp = (T[])new Comparable[data.length*2];
 	for (int i = 1; i <= size; i++) {
 	    temp[i] = data[i];
 	}
 	data = temp;
-   )
-   public String toString()
+   }
+   public String toString(){
+	    String s = "[";
+	for (int i = 1; i <= size; i++) {
+	    if (i == size) {
+		s += data[i];
+	    }
+	    else {
+		s += (data[i] + ", ");
+	    }
+	}
+	s += "]";
+	return s;
+    }
 
    //do this last
    public MyHeap(boolean isMax)
