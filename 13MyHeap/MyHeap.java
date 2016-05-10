@@ -2,7 +2,7 @@ import java.util.*;
 
 @SuppressWarnings("unchecked")
 public class MyHeap<T extends Comparable<T>> {
-    private int size;            
+   private int size;            
    private T[] heap;  
    private boolean isMax = true;   
 
@@ -36,17 +36,6 @@ public class MyHeap<T extends Comparable<T>> {
       heapify();
 
    }
-
-    public int size() {
-	return size;
-    }
-
-    public T peek() {
-	if (size == 0) {
-	    throw new NoSuchElementException();
-	}
-	return heap[1];
-    }
 
     /**pushDown
       precondition: heap is a heap with at most one item
@@ -96,12 +85,6 @@ public class MyHeap<T extends Comparable<T>> {
 	heap[ind2] = temp;
     }
 
-    private void heapify() {
-	for (int i = size/2; i > 0; i--) {
-	    pushDown(i);
-	}
-    }
-
     // delete the root
     public T delete() {
 	if (size == 0) {
@@ -120,6 +103,14 @@ public class MyHeap<T extends Comparable<T>> {
 	return store;
     }
 
+    
+    public T peek() {
+	if (size == 0) {
+	    throw new NoSuchElementException();
+	}
+	return heap[1];
+    }
+
     public void add(T x) {
 	if (size+1 >= heap.length) {
 	    doubleSize();
@@ -130,12 +121,21 @@ public class MyHeap<T extends Comparable<T>> {
 	pushUp(p);
     }
 
+    private void heapify() {
+	for (int i = size/2; i > 0; i--) {
+	    pushDown(i);
+	}
+    }
+
     private void doubleSize(){
       T [] old = heap;
       heap = (T []) new Comparable[heap.length * 2];
       System.arraycopy(old, 1, heap, 1, size);
-   }
+    }
 
+    public int size() {
+	return size;
+    }
     
     private int compare(T value1, T value2) {
 	if (isMax) {
