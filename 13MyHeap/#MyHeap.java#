@@ -1,0 +1,13 @@
+import java.util.*;
+@SuppressWarnings("unchecked")
+public class MyHeap<T extends Comparable<T>>{
+	h.add(600);
+	h.add(1);
+	h.add(-100);
+	System.out.println(h);
+        h.remove();
+	System.out.println(h);
+	h.remove();
+	System.out.println(h);
+    }
+}
