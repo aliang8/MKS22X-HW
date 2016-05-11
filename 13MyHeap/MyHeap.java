@@ -47,12 +47,12 @@ public class MyHeap<T extends Comparable<T>> {
     private void pushDown(int k) {
 	if (size >= 2*k) {
 	    if (size >= 2*k + 1) {
-		int swapIndex = 0;
-		if (compare(heap[2*k], heap[2*k + 1]) >= 0) { swapIndex = 2*k; }
-		else { swapIndex = 2*k + 1; }
-		if (compare(heap[k], heap[swapIndex]) < 0) {
-			swap(k, swapIndex);
-			pushDown(swapIndex);
+		int pos = 0;
+		if (compare(heap[2*k], heap[2*k + 1]) >= 0) { pos = 2*k; }
+		else { pos = 2*k + 1; }
+		if (compare(heap[k], heap[pos]) < 0) {
+			swap(k, pos);
+			pushDown(pos);
 		}
 	    } else {
 		if (compare(heap[k], heap[2*k]) < 0) {
@@ -74,9 +74,9 @@ public class MyHeap<T extends Comparable<T>> {
 	if (k >= 2) {
 	    if (compare(heap[k], heap[k/2]) >= 1) {
 		swap(k, k/2);
-		pushUp(k/2); // recursive call
+		pushUp(k/2); 
 	    }
-	} // end outer if
+	} 
     }
 
     private void swap(int ind1, int ind2) {
@@ -91,19 +91,22 @@ public class MyHeap<T extends Comparable<T>> {
 	    throw new NoSuchElementException();
 	}
 	T store = heap[1];
+	if (size == 1) {
+	    heap[1] = null;
+	    return store;
+	}
 	int index = size;
 	heap[1] = heap[index];
 	heap[size] = null;
-	int p = 1;
-	pushDown(p);
-	for (int i = index+1; i <= size; i++) {
+	size--;
+        for (int i = index+1; i <= size; i++) {
 	    heap[i-1] = heap[i];
 	}
-	size--;
+        int p = 1;
+	pushDown(p);
 	return store;
     }
 
-    
     public T peek() {
 	if (size == 0) {
 	    throw new NoSuchElementException();
